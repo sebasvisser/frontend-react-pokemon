@@ -1,32 +1,32 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
 import axios from 'axios';
 
-
-
-
 function App() {
+    const [pokeData, setPokeData] = useState("");
 
-    async function getPokemon(event){
-        try {
-            const pokemonName = event;
-            const result = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
-            console.log("Hier komt de pokemon")
-            console.log(result);
+    useEffect(() => {
+        async function fetchData() {
+            try{
+                const result = await axios.get(`https://pokeapi.co/api/v2/pokemon/jigglypuff`);
+                console.log("Hier komt de pokemon")
+                setPokeData(result);
+                console.log(pokeData);
+            }
+            catch(e){
+                console.error(e);
+            }
         }
-        catch (error){
-            console.error(error);
-        }
-    }
+            fetchData();
+        }, []);
 
-    const jiggly = getPokemon("jigglypuff");
-    const jigglyPicture = jiggly.data.sprites.front_shiny;
-    console.log("Sprite komt hier:");
-    console.log(jigglyPicture);
+
+
   return (
     <div>
         <h1>JigglyPufff</h1>
       Begin hier met de opdracht!
+        <p>{pokeData.data.id}</p>
         {/*<img src={jigglyPicture} />*/}
     </div>
   );
